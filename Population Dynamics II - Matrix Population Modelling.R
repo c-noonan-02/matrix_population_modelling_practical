@@ -63,5 +63,40 @@ clutch_no <- mean(nests$numberofclutches)
 
 # calculate expected number of chicks per female over the breeding season
 # divide by 2 as only concerned with female segment of the population (assumes equal sex ratio)
+sparrow_R <- (clutch_no*hatching_success*fledgling_no)/2
 
-per_capita_R <- (clutch_no*hatching_success*fledgling_no)/2
+
+# STEP THREE: Deterministic population model
+
+# get vital rate estimates
+sparrow_R
+juv_survival
+yr_survival
+ad_survival
+
+# Juvenile to Juvenile: survival_juv * R
+# Yearling to Juvenile: survival_yr * R
+# Adult to Juvenile: survival_.ad * R
+# Juvenile to Yearling: survival_juv
+# Yearling to Yearling: 0 
+# Adult to Yearling: 0 
+# Juvenile to Adult: 0
+# Yearling to Adult: survival_yr
+# Adult to Adult: survival_ad
+
+# put the transition probabilities into a vector
+sparrow_MPM <- c(juv_survival * sparrow_R, yr_survival * sparrow_R, ad_survival * sparrow_R, juv_survival, 0, 0, 0, yr_survival, ad_survival)
+
+# save vector as a matrix, specifying the number of rows and columns
+# use byrow=TRUE argument to tell R that the first the elements of the vector
+# correspond to the first row of the matrix
+sparrow_MPM <- matrix(sparrow_MPM, nrow=3, ncol=3, byrow=T)
+sparrow_MPM
+
+# use popbio package to do some analyses of our deterministic MPM
+# look at growth rate, lambda
+lambda(sparrow_MPM)
+
+# Q3 - What does this tell us about the dynamics of sparrow population?
+# population is growing
+
