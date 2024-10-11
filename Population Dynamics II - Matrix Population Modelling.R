@@ -144,3 +144,23 @@ stable.stage(sparrow_MPM)
 # of each individual in that stage class to future reproduction
 reproductive.value(sparrow_MPM)
 
+
+# STEP SEVEN - Perturbation analysis
+
+# list the vital rates
+sparrow_param <- list(Phi.juv = juv_survival, Phi.yr = yr_survival, Phi.ad = ad_survival, R = sparrow_R)
+
+# give the matrix equation 
+sparrow_equation <- expression(Phi.juv * R, Phi.yr * R, Phi.ad * R, Phi.juv, 0, 0, 0, Phi.yr, Phi.ad)
+
+# run the sensitivity analysis
+sensitivity_analysis <- vitalsens(sparrow_equation, sparrow_param)
+sensitivity_analysis
+
+# plot elasticity of the vital rates 
+sensitivity_analysis$vitalrate <- factor(c('Juvenile Survival', 'Yearling Survival', 'Adult Survival', 'R'), levels = c('Juvenile Survival', 'Yearling Survival', 'Adult Survival', 'R'))
+ggplot(sensitivity_analysis, aes(vitalrate, elasticity)) + geom_bar(stat = 'identity') 
+
+# Q5 - Which rates are most important for population growth? Is this similar to
+# the orca example we saw in the lecture? Is this what you would expect based on
+# the life-history of the species?
