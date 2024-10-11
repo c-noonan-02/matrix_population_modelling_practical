@@ -113,9 +113,20 @@ projection <- pop.projection(sparrow_MPM, n0, iterations = t)
 projected <- data.frame(time=1:15, N=projection$pop.sizes)
 
 # plot projected pop size over time
-ggplot(projected, aes(time, N)) + 
-  geom_line() + ylim(0,150) + ylab('Projected N')
+ggplot(projected, aes(time, N)) + geom_line() + ylim(0,150) + ylab('Projected N')
 
 # the population was projected to increase over time since lambda >1
 
+
+# STEP FIVE: Observed Dynamics
+pop_estimate <- read.table("./Data/popest.txt", header = TRUE, sep = '\t')
+head(pop_estimate)
+
+# plot N over time
+ggplot(pop_estimate, aes(year, N)) + geom_line() + ylim(0,200) + ylab('Observed N')
+
+# Q4 - How does this population trajectory compare with our estimate of lambda?
+ggplot(projected, aes(time, N)) + geom_line() + ylim(0,150) + ylab('Projected N')
+ggplot(pop_estimate, aes(year, N)) + geom_line() + ylim(0,200) + ylab('Observed N')
+# shows imilar increase, but starts from lower point and is a lot noisier 
 
