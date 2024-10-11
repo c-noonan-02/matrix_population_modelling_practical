@@ -128,5 +128,19 @@ ggplot(pop_estimate, aes(year, N)) + geom_line() + ylim(0,200) + ylab('Observed 
 # Q4 - How does this population trajectory compare with our estimate of lambda?
 ggplot(projected, aes(time, N)) + geom_line() + ylim(0,150) + ylab('Projected N')
 ggplot(pop_estimate, aes(year, N)) + geom_line() + ylim(0,200) + ylab('Observed N')
-# shows imilar increase, but starts from lower point and is a lot noisier 
+# shows similar increase, but starts from lower point and is a lot noisier 
+
+
+# STEP SIX - Stable stage distribution and reproductive value
+stages <- c('Juv','Yr','Ad')
+colnames(sparrow_MPM) <- stages
+rownames(sparrow_MPM) <- stages
+
+# we can look at the the stable stage distribution of our population, that is
+# the long-term average relative abundance of the different stage classes
+stable.stage(sparrow_MPM)
+
+# reproductive values of the different stage classes - the expected contribution
+# of each individual in that stage class to future reproduction
+reproductive.value(sparrow_MPM)
 
