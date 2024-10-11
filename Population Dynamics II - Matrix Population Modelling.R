@@ -100,3 +100,22 @@ lambda(sparrow_MPM)
 # Q3 - What does this tell us about the dynamics of sparrow population?
 # population is growing
 
+
+# STEP FOUR: Projected dynamics
+
+# project over 15 years
+t <- 15
+# start with 50 juveniles, 20 yearlings and 30 adults
+n0 <- c(50,20,30)
+
+# project dynamics 
+projection <- pop.projection(sparrow_MPM, n0, iterations = t)
+projected <- data.frame(time=1:15, N=projection$pop.sizes)
+
+# plot projected pop size over time
+ggplot(projected, aes(time, N)) + 
+  geom_line() + ylim(0,150) + ylab('Projected N')
+
+# the population was projected to increase over time since lambda >1
+
+
