@@ -28,3 +28,40 @@ ggplot(sparrow_survival, aes(stage, estimate, ymin=lcl, ymax=ucl)) +
 # juveniles have the lowest survival - this makes sense as they are likely the
 # more vulnerable stage, and there are factors such as overproduction etc. 
 
+
+# STEP TWO: Per capita reproduction
+
+# need to estimate the the number of female offspring produced by each female between censuses
+
+# load the dataset for Gjeroy for 1998-2012
+nest_data <- read.table("./Data/gjeroynest.txt", header = TRUE, sep = '\t')
+head(nest_data)
+
+# clutchno indicates whether it was the first, second or third etc. clutch laid 
+# in that nest in that breeding season
+
+# hatchingsuc indicates whether any live chicks were found for that clutch (yes - 1, no = 0)
+
+# chickno indicates the number of chicks counted on the final visit prior to fledging
+
+# Q2 - How might you estimate per capita reproduction from these data?
+# calculate average hatching success
+hatching_success <- mean(nest_data$hatchingsuc)
+hatching_success
+# and average number of chicks
+fledgling_no <- mean(nest_data$chickno)
+fledgling_no
+
+# for the number of clutches we create a new dataframe
+# one row for each unique nest
+# column number of clutches takes maximum value of clutchno for each unique 
+# value of nest ID
+nests <- data.frame(nestid = sort(unique(nest_data$nestid)), numberofclutches=tapply(nest_data$clutchno, nest_data$nestid, max))
+head(nests)
+# then take the mean of these values to be the average number of clutches
+clutch_no <- mean(nests$numberofclutches)
+
+# calculate expected number of chicks per female over the breeding season
+# divide by 2 as only concerned with female segment of the population (assumes equal sex ratio)
+
+per_capita_R <- (clutch_no*hatching_success*fledgling_no)/2
